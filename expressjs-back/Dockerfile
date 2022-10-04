@@ -6,12 +6,12 @@ EXPOSE 3000
 
 FROM base as production
 ENV NODE_ENV=production
-RUN npm ci
+RUN yarn install
 COPY . /
 CMD ["yarn", "start"]
 
 FROM base as dev
 ENV NODE_ENV=development
-RUN npm install -g nodemon && npm install
+RUN yarn global add nodemon && yarn install
 COPY . /
 CMD ["yarn", "dev"]
