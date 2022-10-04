@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  mongodb:
+    image: mongo:5.0.2
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DB_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$DB_PASSWORD
+    ports:
+      - $DB_PORT:$DB_PORT
+    volumes:
+      - ./_docker/mongodb:/data/db
+
+  express:
+    depends_on:
+      - mongodb
+    build:
+      context: ./expressjs-back
+      target: dev
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOST=$DB_HOST
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DB_PORT
+    #Remove in Prod
+    volumes:
+      - ./expressjs-back:/src

@@ -1,0 +1,5 @@
+.env
+
+_docker/mongodb
+
+expressjs-back/node_modules
